@@ -1,22 +1,14 @@
-.App-Header-Row{
-    display:flex;
-    justify-content: space-between;
-    background-color: aqua;
-}
-.App-Header-Row div{
-    padding: 10px;
-}
-.App-Header-Row{
+.App-Header-Row {
     display: flex;
     justify-content: space-between;
     background-color: orange;
 }
 
-.App-Header-Row div{
+.App-Header-Row div {
     padding: 10px;
 }
 
-.App-Header-Row li{
+.App-Header-Row li {
     display: inline-block;
     padding: 5px;
 }
