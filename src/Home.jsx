@@ -23,6 +23,7 @@ export default function Home() {
       price: 75,
       imgUrl: "https://picsum.photos/id/3/300/300",
     },
+      
   ];
 
   return (

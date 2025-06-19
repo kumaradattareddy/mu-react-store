@@ -1,15 +1,38 @@
-import React from "react";
-import { Link,useNavigate } from "react-router-dom";
-import { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { AppContext } from "./App";
+import axios from "axios";
+
 export default function Register() {
   const [user, setUser] = useState({});
-  const Navigate = useNavigate()
+  const navigate = useNavigate();
   const { users, setUsers } = useContext(AppContext);
-  const handleSubmit = () => {
-    setUsers([...users, user]);
-    Navigate("/login")
+
+  const nameRef = useRef();
+  const emailRef = useRef();
+  const passRef = useRef();
+
+  const API = import.meta.env.VITE_API_URL;
+
+  const handleSubmit = async () => {
+    const userObj = {
+      name: nameRef.current.value,
+      email: emailRef.current.value,
+      pass: passRef.current.value,
+    };
+
+    const URL = `${API}/api/users/register`;
+
+    try {
+      await axios.post(URL, userObj);
+      setUsers([...users, userObj]); // Optional: update context with new user
+      navigate("/login"); // Navigate to login after successful registration
+    } catch (error) {
+      console.error("Registration failed:", error);
+      alert("Registration failed. Please try again.");
+    }
   };
+
   return (
     <div>
       <h2>Register</h2>
@@ -17,20 +40,20 @@ export default function Register() {
         <input
           type="text"
           placeholder="Enter Name"
-          onChange={(e) => setUser({ ...user, name: e.target.value })}
+          ref={nameRef}
         />
       </p>
       <p>
         <input
           type="text"
-          onChange={(e) => setUser({ ...user, email: e.target.value })}
+          ref={emailRef}
           placeholder="Enter Email Address"
         />
       </p>
       <p>
         <input
           type="password"
-          onChange={(e) => setUser({ ...user, pass: e.target.value })}
+          ref={passRef}
           placeholder="New Password"
         />
       </p>
@@ -39,7 +62,7 @@ export default function Register() {
       </p>
       <hr />
       <p>
-        <Link to="/login">Aready a member? Login Here...</Link>
+        <Link to="/login">Already a member? Login Here...</Link>
       </p>
     </div>
   );
